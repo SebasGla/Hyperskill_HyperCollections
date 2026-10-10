@@ -1,20 +1,19 @@
 package collections;
 
 
+import java.util.Map;
+
 public class Main {
   public static void main(String[] args) {
-    String test1 = "string 1";
-    String test2 = "string 2";
+    Multiset<Character> multiset = new Multiset<>();
+    multiset.add('a');
+    multiset.add('b', 6);
 
-    ImmutableCollection<String> stringCollection = ImmutableCollection.of(test1, test2);
-    System.out.println(stringCollection.isEmpty());
-    System.out.println(stringCollection.size());
+    System.out.println(multiset); // [a, b, b, b, b, b, b]
+    System.out.println(multiset.contains('c')); // false
+    System.out.println(multiset.count('b')); // 6
+    System.out.println(multiset.elementSet()); // ['a', 'b']
 
-    System.out.println(stringCollection.contains("string 1"));
 
-    ImmutableCollection<?> emptyCollection = ImmutableCollection.of();
-
-    System.out.println(emptyCollection.size()); // 0
-    System.out.println(emptyCollection.isEmpty()); // true
   }
 }
