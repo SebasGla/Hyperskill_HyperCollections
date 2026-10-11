@@ -1,8 +1,6 @@
 package collections;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Multiset<E> {
     private Map<E, Integer> multiset = new HashMap<>();
@@ -36,7 +34,17 @@ public class Multiset<E> {
 
     @Override
     public String toString(){
-        for
-        return this.multiset.get
+        Set<Map.Entry<E,Integer>> entries = this.multiset.entrySet();
+        List<E> flatList = new ArrayList<>();
+
+        for (Map.Entry<E, Integer> entry : entries){
+            int count = entry.getValue();
+            E key = entry.getKey();
+            for (int i = 0; i < count; i++){
+                flatList.add(key);
+            }
+        }
+
+        return flatList.toString();
     }
 }
