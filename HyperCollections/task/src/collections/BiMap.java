@@ -55,12 +55,12 @@ public class BiMap<K, V>  {
         return this.forwardMap.toString();
     }
 
-    public Collection<V> values() {
-        return this.forwardMap.values();
+    public Set<V> values() {
+        return (Set<V>) this.forwardMap.values();
     }
     
-    public Map<V, K> inverse() {
-        return this.reverseMap;
+    public BiMap<V, K> inverse() {
+        return (BiMap<V, K>) this.reverseMap;
     }
 
     public V forcePut(K key, V value){

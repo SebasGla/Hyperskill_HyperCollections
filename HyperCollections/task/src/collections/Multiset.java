@@ -47,4 +47,41 @@ public class Multiset<E> {
 
         return flatList.toString();
     }
+
+    public void remove(E element) {
+        int count = Optional.ofNullable(this.multiset.get(element)).orElse(0);
+        if(count > 1){
+            this.multiset.put(element, count-1);
+        }
+        else{
+            this.multiset.remove(element);
+        }
+    }
+
+    public void remove(E element, int occurences) {
+        int absOcc = Math.abs(occurences);
+        int count = Optional.ofNullable(this.multiset.get(element)).orElse(0);
+        if(count > absOcc){
+            this.multiset.put(element, count-absOcc);
+        }
+        else{
+            this.multiset.remove(element);
+        }
+    }
+
+
+    public void setCount(E element, int count) {
+        if (this.multiset.containsKey(element)) {
+            this.multiset.put(element, count);
+        }
+    }
+
+    public void setCount (E element,int oldCount, int newCount){
+        if (this.multiset.containsKey(element)) {
+            if (this.multiset.get(element) == oldCount) {
+                this.multiset.put(element, newCount);
+            }
+        }
+    }
+
 }

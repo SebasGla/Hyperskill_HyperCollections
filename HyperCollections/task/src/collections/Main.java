@@ -5,15 +5,38 @@ import java.util.Map;
 
 public class Main {
   public static void main(String[] args) {
-    Multiset<Character> multiset = new Multiset<>();
-    multiset.add('a');
-    multiset.add('b', 6);
+    BiMap<Character, Integer> biMap = new BiMap<>();
 
-    System.out.println(multiset); // [a, b, b, b, b, b, b]
-    System.out.println(multiset.contains('c')); // false
-    System.out.println(multiset.count('b')); // 6
-    System.out.println(multiset.elementSet()); // ['a', 'b']
+    biMap.put('a', 3);
+    biMap.putAll(Map.of('b', 4, 'c', 5));
 
+    System.out.println(biMap); // {a=3, b=4, c=5}
+    System.out.println(biMap.values()); // [3, 4, 5]
+
+    biMap.putAll(Map.of('d', 6, 'e', 7));
+
+    System.out.println(biMap); // {a=3, b=4, c=5, d=6, e=7}
+    System.out.println(biMap.inverse()); // {3=a, 4=b, 5=c, 6=d, 7=e}
+
+    biMap.forcePut('f', 8);
+
+    System.out.println(biMap); // {a=3, b=4, c=5, d=6, e=7, f=8}
+    System.out.println(biMap.inverse()); // {3=a, 4=b, 5=c, 6=d, 7=e, 8=f}
+
+    biMap.forcePut('a', 9);
+
+    System.out.println(biMap); // {a=9, b=4, c=5, d=6, e=7, f=8}
+    System.out.println(biMap.inverse()); // {4=b, 5=c, 6=d, 7=e, 8=f, 9=a}
+
+    biMap.forcePut('g', 4);
+
+    System.out.println(biMap); // {a=9, c=5, d=6, e=7, f=8, g=4}
+    System.out.println(biMap.inverse()); // {4=g, 5=c, 6=d, 7=e, 8=f, 9=a}
+
+    biMap.forcePut('c', 6);
+
+    System.out.println(biMap); // {a=9, c=6, e=7, f=8, g=4}
+    System.out.println(biMap.inverse()); // {4=g, 6=c, 7=e, 8=f, 9=a}
 
   }
 }
