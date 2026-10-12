@@ -5,38 +5,45 @@ import java.util.Map;
 
 public class Main {
   public static void main(String[] args) {
-    BiMap<Character, Integer> biMap = new BiMap<>();
 
-    biMap.put('a', 3);
-    biMap.putAll(Map.of('b', 4, 'c', 5));
+    Multiset<Integer> multiset = new Multiset<>();
+    int i = 2;
+// Schritt 1 bis 7 (hast du schon erfolgreich)
+    multiset.setCount(i, 5);
+    multiset.setCount(i, 2, 5);
+    multiset.add(i, 3);
+    multiset.setCount(i, 2, 5);
+    multiset.setCount(i, -1);
+    multiset.setCount(i, 3, -1);
+    multiset.setCount(i, 3, 5);
+    multiset.setCount(i, 1);
+    multiset.setCount(i, 0);
 
-    System.out.println(biMap); // {a=3, b=4, c=5}
-    System.out.println(biMap.values()); // [3, 4, 5]
+    System.out.println("Zustand nach Schritt 7: " + multiset); // []
 
-    biMap.putAll(Map.of('d', 6, 'e', 7));
+    // --- AB HIER KOMMT DER REST DES TESTS ---
 
-    System.out.println(biMap); // {a=3, b=4, c=5, d=6, e=7}
-    System.out.println(biMap.inverse()); // {3=a, 4=b, 5=c, 6=d, 7=e}
+    System.out.println("\n--- Schritt 8: add(2, 3) ---");
+    multiset.add(i, 3);
+    System.out.println("multiset: " + multiset); // Erwartet: [2, 2, 2]
 
-    biMap.forcePut('f', 8);
+    System.out.println("\n--- Schritt 9: setCount(2, 3, 3) und setCount(2, 3) ---");
+    multiset.setCount(i, 3, 3);
+    System.out.println("nach setCount(2, 3, 3): " + multiset); // Erwartet: [2, 2, 2]
+    multiset.setCount(i, 3);
+    System.out.println("nach setCount(2, 3):    " + multiset); // Erwartet: [2, 2, 2]
 
-    System.out.println(biMap); // {a=3, b=4, c=5, d=6, e=7, f=8}
-    System.out.println(biMap.inverse()); // {3=a, 4=b, 5=c, 6=d, 7=e, 8=f}
+    System.out.println("\n--- Schritt 10: setCount(2, 3, 0) -> MUSS ENTFERNT WERDEN! ---");
+    multiset.setCount(i, 3, 0);
+    System.out.println("multiset:   " + multiset);             // Erwartet: []
+    System.out.println("elementSet: " + multiset.elementSet()); // Erwartet: []
+    System.out.println("contains:   " + multiset.contains(i));   // Erwartet: false
+    System.out.println("count:      " + multiset.count(i));      // Erwartet: 0
 
-    biMap.forcePut('a', 9);
-
-    System.out.println(biMap); // {a=9, b=4, c=5, d=6, e=7, f=8}
-    System.out.println(biMap.inverse()); // {4=b, 5=c, 6=d, 7=e, 8=f, 9=a}
-
-    biMap.forcePut('g', 4);
-
-    System.out.println(biMap); // {a=9, c=5, d=6, e=7, f=8, g=4}
-    System.out.println(biMap.inverse()); // {4=g, 5=c, 6=d, 7=e, 8=f, 9=a}
-
-    biMap.forcePut('c', 6);
-
-    System.out.println(biMap); // {a=9, c=6, e=7, f=8, g=4}
-    System.out.println(biMap.inverse()); // {4=g, 6=c, 7=e, 8=f, 9=a}
+    System.out.println("\n--- Schritt 11: add(2, 3) für den nächsten Schleifendurchlauf ---");
+    multiset.add(i, 3);
+    System.out.println("multiset: " + multiset); // Erwartet: [2, 2, 2]
 
   }
+
 }

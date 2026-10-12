@@ -11,8 +11,10 @@ public class Multiset<E> {
     }
 
     public void add(E element, int occurrences){
-        int count = this.count(element) + occurrences;
-        this.multiset.put(element, count);
+        if(occurrences > 0) {
+            int count = this.count(element) + occurrences;
+            this.multiset.put(element, count);
+        }
     }
 
     public int count(E element){
@@ -59,29 +61,44 @@ public class Multiset<E> {
     }
 
     public void remove(E element, int occurences) {
-        int absOcc = Math.abs(occurences);
-        int count = Optional.ofNullable(this.multiset.get(element)).orElse(0);
-        if(count > absOcc){
-            this.multiset.put(element, count-absOcc);
+
+        if(occurences > 0){
+            int count = Optional.ofNullable(this.multiset.get(element)).orElse(0);
+            if(count > occurences){
+                this.multiset.put(element, count-occurences);
+            }
+            else{
+                this.multiset.remove(element);
+            }
         }
-        else{
-            this.multiset.remove(element);
-        }
+
     }
 
 
     public void setCount(E element, int count) {
-        if (this.multiset.containsKey(element)) {
-            this.multiset.put(element, count);
+        if(count > 0){
+            if (this.multiset.containsKey(element)) {
+                this.multiset.put(element, count);
+            }
         }
+        else if(count == 0){
+            this.multiset.remove(element);
+        }
+
     }
 
     public void setCount (E element,int oldCount, int newCount){
-        if (this.multiset.containsKey(element)) {
-            if (this.multiset.get(element) == oldCount) {
-                this.multiset.put(element, newCount);
+        if(newCount > 0){
+            if (this.multiset.containsKey(element)) {
+                if (this.multiset.get(element) == oldCount) {
+                    this.multiset.put(element, newCount);
+                }
             }
+        } else if(newCount == 0){
+            this.multiset.remove(element);
         }
+
+
     }
 
 }

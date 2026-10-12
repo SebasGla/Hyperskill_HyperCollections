@@ -1,17 +1,17 @@
 package collections;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class BiMap<K, V>  {
-    private Map<K, V> forwardMap;
-    private Map<V, K> reverseMap;
+    private Map<K, V> forwardMap = new HashMap<>();
+    private Map<V, K> reverseMap = new HashMap<>();
 
-    public BiMap(){
-        this.forwardMap = new HashMap<>();
-        this.reverseMap = new HashMap<>();
+    static <S,W> BiMap<S, W> of(Map<S, W> map){
+        BiMap<S, W> bimap = new BiMap<>();
+
+        map.forEach(bimap::put);
+
+        return bimap;
     }
 
     public V put(K key, V value){
@@ -56,17 +56,26 @@ public class BiMap<K, V>  {
     }
 
     public Set<V> values() {
-        return (Set<V>) this.forwardMap.values();
+        return new HashSet<>(this.forwardMap.values());
     }
     
     public BiMap<V, K> inverse() {
-        return (BiMap<V, K>) this.reverseMap;
+        return BiMap.of(this.reverseMap);
     }
 
     public V forcePut(K key, V value){
+        //first check if the entry already exists. If we yes we return withouth doing anything
+        if(this.forwardMap.containsKey(key)){
+            if(this.forwardMap.get(key).equals(value)){
+                return value;
+            }
+        }
+
+        //check cases of current map states.
         if(this.forwardMap.containsKey(key) && this.forwardMap.containsValue(value)){
             V reverseKey = this.forwardMap.get(key);
             K forwardKey = this.reverseMap.get(value);
+
             this.forwardMap.replace(key, value);
             this.forwardMap.remove(forwardKey);
             this.reverseMap.replace(value, key);
